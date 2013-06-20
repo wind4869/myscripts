@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # Function: figure out the lines of codes
-# Usage: count (in the root of your project)
+# Usage: count ... (in the root of your project)
 # Note: modify the pattern if necessary
 
 import os
 import re
+import sys
 
-pattern = r'^[A-Za-z_]*\.(c|h|asm|inc)$'
+pattern = r'^[A-Za-z_]*\.(c|h|asm|inc|py|cpp|java)$'
 total = 0
 
 def PrintDirTree(rootDir, level=1):
@@ -24,5 +25,10 @@ def PrintDirTree(rootDir, level=1):
             total += int(lines)
 
 if __name__ == '__main__':
+    types = []
+    for i in range(len(sys.argv)):
+        types.append(sys.argv[i])
+    if len(sys.argv) > 1:
+        pattern = r'^[A-Za-z_]*\.(%s)$' % '|'.join(types[1:])
     PrintDirTree(os.popen('pwd').read()[:-1])
     print 'Total Lines: %d' % total
