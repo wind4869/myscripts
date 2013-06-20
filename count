@@ -1,14 +1,28 @@
-#!/bin/sh
-# Author: nourlcn
-# Function: figure out the lines of code *.type
-# Usage: count filename (or *.type)
+#!/usr/bin/env python
+# Function: figure out the lines of codes
+# Usage: count (in the root of your project)
+# Note: modify the pattern if necessary
 
-type=$1
-total=0
-for x in `find ./* -type f -name "$type"`;
-do
-	single=`cat $x|wc -l`
-	total=$total+$single
-done
+import os
+import re
 
-echo $total|bc
+pattern = r'^[A-Za-z_]*\.(c|h|asm|inc)$'
+total = 0
+
+def PrintDirTree(rootDir, level=1):
+    global total
+    if level == 1:
+        print rootDir
+    for lists in os.listdir(rootDir):
+        path = os.path.join(rootDir, lists)
+        if os.path.isdir(path) and lists[0] != '.':
+            print '|  ' * (level - 1) + '|--' + lists
+            PrintDirTree(path, level + 1)
+        elif re.match(pattern, lists):
+            lines = os.popen('wc %s -l' % path).read()[:-len(path) - 2]
+            print '|  ' * (level - 1) + '|--' + lists + ' (' + lines + ')'
+            total += int(lines)
+
+if __name__ == '__main__':
+    PrintDirTree(os.popen('pwd').read()[:-1])
+    print 'Total Lines: %d' % total
