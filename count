@@ -1,0 +1,14 @@
+#!/bin/sh
+# Author: nourlcn
+# Function: figure out the lines of code *.type
+# Usage: count filename (or *.type)
+
+type=$1
+total=0
+for x in `find ./* -type f -name "$type"`;
+do
+	single=`cat $x|wc -l`
+	total=$total+$single
+done
+
+echo $total|bc
