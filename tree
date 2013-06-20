@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+# Function: print the directory tree
+# Usage: tree
+
+import os
+
+def PrintDirTree(rootDir, level=1):
+    if level == 1: print rootDir
+    for lists in os.listdir(rootDir):
+        path = os.path.join(rootDir, lists)
+        print '|  ' * (level - 1) + '|--' + lists
+        if os.path.isdir(path):
+            PrintDirTree(path, level + 1)
+
+if __name__ == '__main__':
+    PrintDirTree(os.popen('pwd').read()[:-1])
