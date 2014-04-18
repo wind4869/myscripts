@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo ~/.goagent/local/proxy.sh
