@@ -4,4 +4,4 @@
 
 find . -name "*.h" -o -name "*.c" -o -name "*.asm" -o -name "*.inc" > cscope.files
 cscope -bkq -i cscope.files
-ctags -R
+/usr/local/bin/ctags -R
