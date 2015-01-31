@@ -1,8 +1,0 @@
-#!/usr/bin/env python
-# Function: replace space with underline in your one line input
-# Usage: s2ul ... (your input)
-
-import sys
-
-if len(sys.argv) > 1:
-    print '_'.join(sys.argv[1:])
