@@ -6,7 +6,6 @@ LEETCODE_URL=https://leetcode.com/problems/
 
 function usage()
 {
-
     echo -e "Usage: ${0} [url] [source_file]"
     echo -e ""
     echo -e "Example:"
@@ -17,33 +16,6 @@ function usage()
     echo -e "   2) Add Copyright & Problem description into existed file"
     echo -e "   ${0} https://leetcode.com/problems/largest-number/ largestNumber.cpp"
     echo -e ""
-}
-
-function install_xidel()
-{
-    echo "Install xidel ..."
-    if [ ! -d ./xidel ]; then
-        mkdir xidel
-    fi
-    cd xidel
-    linux=`uname -m`
-    xidel_tar=xidel-0.8.4.linux64.tar.gz
-    case $linux in
-        x86_64 )    xidel_tar=xidel-0.8.4.linux64.tar.gz
-                    ;;
-          i686 )    xidel_tar=xidel-0.8.4.linux32.tar.gz
-                    ;;
-             * )    echo "Cannot install xidel, please install it manually!"
-                    exit 1;
-    esac
-    if [ ! -f ${xidel_tar} ]; then
-        echo "Downloading xidel....."
-        curl -L http://softlayer-sng.dl.sourceforge.net/project/videlibri/Xidel/Xidel%200.8.4/${xidel_tar} -o ${xidel_tar}
-    fi
-    tar -zxvf ${xidel_tar}
-    ./install.sh
-    cd ..
-    echo "Install xidel successfullly !"
 }
 
 if [ $# -lt 1 ] || [[ "${1}" != ${LEETCODE_URL}* ]]; then
@@ -74,21 +46,11 @@ else
     fi
 fi
 
-#change SOURCE_FILES in CMakeLists.txt
-gsed -i "s/\w*\.cpp/${source_file}/g" "CMakeLists.txt"
-
-#adding the Copyright Comments
+# adding the Copyright Comments
 if  ! grep -Fq "// Author :" $source_file ; then
     gsed -i '1i\'"// Source : ${leetcode_url}" $source_file
     gsed -i '2i\'"// Author : ${AUTHOR}" $source_file
     gsed -i '3i\'"// Date   : ${current_time}\n" $source_file
-fi
-
-#grab the problem description and add the comments
-xidel=`type -P xidel || /bin/true`
-if [ -z "${xidel}" ]; then
-    echo "xidel not found !"
-    install_xidel
 fi
 
 xidel ${leetcode_url} -q -e "css('div.question-content')"  | \
