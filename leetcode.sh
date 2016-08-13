@@ -29,7 +29,7 @@ current_time=`date +%Y-%m-%d`
 
 if [ $# -gt 1 ] && [ -f $2 ]; then
     source_file=$2
-    current_time=`gstat -c %x ${source_file} | awk '{print \$1}'`
+    current_time=`stat -c %x ${source_file} | awk '{print \$1}'`
 else
     source_file=${1#${LEETCODE_URL}}
     source_file=${source_file::${#source_file}-1}
@@ -42,7 +42,7 @@ else
     else
         rm ${source_file}
         echo -e "\n" > ${source_file}
-        current_time=`gstat -c %x ${source_file} | awk '{print \$1}'`
+        current_time=`stat -c %x ${source_file} | awk '{print \$1}'`
     fi
 fi
 
