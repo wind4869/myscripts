@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e
 
 AUTHOR="wind4869"
@@ -63,3 +64,4 @@ sed -i '4 r /tmp/tmp.txt' ${source_file}
 rm -f /tmp/tmp.txt
 
 echo "${source_file} updated !"
+
